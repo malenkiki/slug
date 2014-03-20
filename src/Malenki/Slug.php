@@ -29,9 +29,16 @@ namespace Malenki;
 class Slug
 {
     protected $str = null;
+    protected $arr_historic = array();
+    protected $use_historic = false;
 
     public function __construct($str = null)
     {
+        if(!extension_loaded('iconv'))
+        {
+            throw new \RuntimeException('Missing Iconv extension. This is required to use ' . __CLASS__);
+        }
+
         if(!is_null($str))
         {
             $this->value($str);
@@ -46,7 +53,16 @@ class Slug
             throw new \InvalidArgumentException('Argument for constructor of' .__CLASS__ . ' must be a scalar!');
         }
 
-        $this->str = (string) $str;
+        if(!extension_loaded('mbstring'))
+        {
+            trigger_error('You have not multibyte extension, this may create weird result!', E_USER_WARNING);
+            $this->str = strtolower((string) $str);
+        }
+        else
+        {
+            $this->str = mb_strtolower((string) $str, 'UTF-8');
+        }
+
 
         return $this;
     }
@@ -64,9 +80,22 @@ class Slug
 
     public function render()
     {
-        //TODO
-        return $this->str;
+        //$str = iconv('utf-8', 'us-ascii//TRANSLIT', $this->str);
+        $str = transliterator_transliterate(
+            "Any-Latin; NFD; [:Nonspacing Mark:] Remove; NFC; [:Punctuation:] Remove; Lower();",
+            $this->str
+        );
+
+        $str = transliterator_transliterate(
+            "Any-Latin; NFD; [:Nonspacing Mark:] Remove; NFC;  Lower();",
+            $this->str
+        );
+        $str = trim(preg_replace('/[^a-z0-9-]+/', '-', $str), '-');
+
+        return $str;
     }
+
+
 
     public function __toString()
     {
