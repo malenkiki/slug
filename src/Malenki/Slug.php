@@ -28,4 +28,48 @@ namespace Malenki;
 
 class Slug
 {
+    protected $str = null;
+
+    public function __construct($str = null)
+    {
+        if(!is_null($str))
+        {
+            $this->value($str);
+        }
+    }
+
+
+    public function value($str)
+    {
+        if(!is_scalar($str))
+        {
+            throw new \InvalidArgumentException('Argument for constructor of' .__CLASS__ . ' must be a scalar!');
+        }
+
+        $this->str = (string) $str;
+
+        return $this;
+    }
+
+
+
+    public function v($str)
+    {
+        $this->value($str);
+
+        return $this;
+    }
+
+
+
+    public function render()
+    {
+        //TODO
+        return $this->str;
+    }
+
+    public function __toString()
+    {
+        return $this->render();
+    }
 }

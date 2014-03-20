@@ -22,10 +22,14 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+use \Malenki\Slug;
 
 class SlugTest extends PHPUnit_Framework_TestCase
 {
-    public function testSomething()
+    public function testStringThatMustNotChange()
     {
+        $s = new Slug('azerty');
+        $this->assertEquals('azerty', $s->render());
+        $this->assertEquals('azerty', "$s");
     }
 }
