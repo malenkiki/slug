@@ -34,9 +34,9 @@ class Slug
 
     public function __construct($str = null)
     {
-        if(!extension_loaded('iconv'))
+        if(!extension_loaded('intl'))
         {
-            throw new \RuntimeException('Missing Iconv extension. This is required to use ' . __CLASS__);
+            throw new \RuntimeException('Missing Intl extension. This is required to use ' . __CLASS__);
         }
 
         if(!is_null($str))
@@ -80,11 +80,12 @@ class Slug
 
     public function render()
     {
-        //$str = iconv('utf-8', 'us-ascii//TRANSLIT', $this->str);
+        /*
         $str = transliterator_transliterate(
             "Any-Latin; NFD; [:Nonspacing Mark:] Remove; NFC; [:Punctuation:] Remove; Lower();",
             $this->str
         );
+         */
 
         $str = transliterator_transliterate(
             "Any-Latin; NFD; [:Nonspacing Mark:] Remove; NFC;  Lower();",
