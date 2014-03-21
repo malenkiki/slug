@@ -46,4 +46,33 @@ class SlugTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('ta-ellenika-sou-einai-kalytera-apo-ta-gallika-mou', $s->render());
 
     }
+
+
+    public function testDefaultHistory()
+    {
+        $s = new Slug('Voici une chaîne');
+        $this->assertEquals('voici-une-chaine', "$s");
+        $s = new Slug('Voici une chaîne');
+        $this->assertEquals('voici-une-chaine-2', "$s");
+        $s = new Slug('Voici une chaîne');
+        $this->assertEquals('voici-une-chaine-3', "$s");
+        $s = new Slug('Voici une chaîne');
+        $this->assertEquals('voici-une-chaine-4', "$s");
+    }
+
+    public function testDisableDefaultHistory()
+    {
+        $s = new Slug('Voici une chaîne');
+        $s->noHistory();
+        $this->assertEquals('voici-une-chaine', "$s");
+        $s = new Slug('Voici une chaîne');
+        $s->noHistory();
+        $this->assertEquals('voici-une-chaine', "$s");
+        $s = new Slug('Voici une chaîne');
+        $s->noHistory();
+        $this->assertEquals('voici-une-chaine', "$s");
+        $s = new Slug('Voici une chaîne');
+        $s->noHistory();
+        $this->assertEquals('voici-une-chaine', "$s");
+    }
 }

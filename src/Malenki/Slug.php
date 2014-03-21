@@ -29,8 +29,9 @@ namespace Malenki;
 class Slug
 {
     protected $str = null;
-    protected $arr_historic = array();
-    protected $use_historic = false;
+    protected $str_out = null;
+    protected static $arr_history = array();
+    protected $use_history = true;
 
     public function __construct($str = null)
     {
@@ -45,6 +46,17 @@ class Slug
         }
     }
 
+    public static function history(&$arr)
+    {
+        self::$arr_history = $arr;
+    }
+
+
+    public function noHistory()
+    {
+        $this->use_history = false;
+        return $this;
+    }
 
     public function value($str)
     {
@@ -87,13 +99,48 @@ class Slug
         );
          */
 
-        $str = transliterator_transliterate(
-            "Any-Latin; NFD; [:Nonspacing Mark:] Remove; NFC;  Lower();",
-            $this->str
-        );
-        $str = trim(preg_replace('/[^a-z0-9-]+/', '-', $str), '-');
+        if(is_null($this->str_out))
+        {
+            $str_prov = transliterator_transliterate(
+                "Any-Latin; NFD; [:Nonspacing Mark:] Remove; NFC;  Lower();",
+                $this->str
+            );
+            $str = trim(preg_replace('/[^a-z0-9-]+/', '-', $str_prov), '-');
 
-        return $str;
+            if(!$this->use_history)
+            {
+                $this->str_out = $str;
+                return $this->str_out;
+            }
+
+            if(!in_array($str, self::$arr_history))
+            {
+                self::$arr_history[] = $str;
+                $this->str_out = $str;
+            }
+            else
+            {
+                $int_start = 2;
+                $str_prov = $str.'-'.$int_start;
+
+                while(in_array($str_prov, self::$arr_history))
+                {
+                    $str_prov = $str.'-'.$int_start;
+                    $int_start++;
+                }
+
+
+                if(!in_array($str_prov, self::$arr_history))
+                {
+                    self::$arr_history[] = $str_prov;
+                    $this->str_out = $str_prov;
+                }
+            }
+
+            return $this->str_out;
+        }
+
+        return $this->str_out;
     }
 
 
