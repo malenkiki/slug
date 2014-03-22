@@ -33,6 +33,15 @@ class Slug
     protected static $arr_history = array();
     protected $use_history = true;
 
+
+
+    /**
+     * Create new slug instance. 
+     * 
+     * @param mixed $str String to slugify, or no value to set it later.
+     * @access public
+     * @return void
+     */
     public function __construct($str = null)
     {
         if(!extension_loaded('intl'))
@@ -46,18 +55,45 @@ class Slug
         }
     }
 
+
+
+    /**
+     * Set history with values from an array. 
+     * 
+     * @param array $arr Array of slug strings
+     * @static
+     * @access public
+     * @return void
+     * @todo Shall I use static way or not?
+     */
     public static function history(&$arr)
     {
         self::$arr_history = $arr;
     }
 
 
+
+    /**
+     * Disables use of history. 
+     * 
+     * @access public
+     * @return Slug
+     */
     public function noHistory()
     {
         $this->use_history = false;
         return $this;
     }
 
+
+
+    /**
+     * New vvalue to slugify using current slug object configuration.
+     * 
+     * @param scalar $str String to slugify
+     * @access public
+     * @return Slug
+     */
     public function value($str)
     {
         if(!is_scalar($str))
@@ -81,6 +117,13 @@ class Slug
 
 
 
+    /**
+     * Shorthand for value() method. 
+     * 
+     * @param string $str New string to slugify
+     * @access public
+     * @return Slug
+     */
     public function v($str)
     {
         $this->value($str);
@@ -90,6 +133,15 @@ class Slug
 
 
 
+    /**
+     * Renders original string as a slug.
+     *
+     * Under the hood, uses or not history. First call translate the string, 
+     * second call take value already translated before.
+     * 
+     * @access public
+     * @return string
+     */
     public function render()
     {
         /*
