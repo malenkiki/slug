@@ -26,6 +26,14 @@
 namespace Malenki;
 
 
+/**
+ * Slug 
+ * 
+ * @copyright 2014 Michel PETIT
+ * @author Michel Petit <petit.michel@gmail.com> 
+ * @license MIT
+ * @todo add custom character/string part to translate
+ */
 class Slug
 {
     protected $str = null;
@@ -38,6 +46,7 @@ class Slug
     /**
      * Create new slug instance. 
      * 
+     * @throw \RuntimeException If Intl extension is not available.
      * @param mixed $str String to slugify, or no value to set it later.
      * @access public
      * @return void
@@ -88,9 +97,12 @@ class Slug
 
 
     /**
-     * New vvalue to slugify using current slug object configuration.
+     * New value to slugify using current slug object configuration.
      * 
-     * @param scalar $str String to slugify
+     * Note: Raises an `E_USER_WARNING` if mbstring extension is not available.
+     *
+     * @throw \InvalidArgumentException If argument if not a scalar.
+     * @param scalar $str String to slugify. can be scalar that will be cast to string.
      * @access public
      * @return Slug
      */
@@ -197,6 +209,12 @@ class Slug
 
 
 
+    /**
+     * Render the slug string into string context. 
+     * 
+     * @access public
+     * @return string
+     */
     public function __toString()
     {
         return $this->render();
