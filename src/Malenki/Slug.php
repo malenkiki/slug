@@ -115,7 +115,7 @@ class Slug
 
         if(strlen($str_new) > 0)
         {
-            if(preg_match('/[^a-zA-Z0-9-]/', (string) $str_new))
+            if(preg_match('/[^a-z0-9-]/', (string) $str_new))
             {
                 throw new \InvalidArgumentException('Replacement string contains not allowed characters!');
             }
