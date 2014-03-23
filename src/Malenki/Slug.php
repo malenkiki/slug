@@ -32,7 +32,6 @@ namespace Malenki;
  * @copyright 2014 Michel PETIT
  * @author Michel Petit <petit.michel@gmail.com> 
  * @license MIT
- * @todo add custom character/string part to translate
  */
 class Slug
 {

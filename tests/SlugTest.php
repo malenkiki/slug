@@ -75,4 +75,11 @@ class SlugTest extends PHPUnit_Framework_TestCase
         $s->noHistory();
         $this->assertEquals('voici-une-chaine', "$s");
     }
+
+    public function testCustomRules()
+    {
+        $s = new Slug();
+        $s->noHistory()->rule('1', 'une')->v('Voici 1 chaîne');
+        $this->assertEquals('voici-une-chaine', "$s");
+    }
 }
