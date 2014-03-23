@@ -96,6 +96,16 @@ class Slug
 
 
 
+    /**
+     * Adds custom rule to replace some characters.
+     *
+     * @throw \InvalidArgumentException If one from two argument is not a scalar.
+     * @throw \InvalidArgumentException If second argument contains not allowed characters.
+     * @param mixed $str_to_change String or scalar to replace
+     * @param mixed $str_new Replacement string
+     * @access public
+     * @return Slug
+     */
     public function rule($str_to_change, $str_new)
     {
         if(!is_scalar($str_to_change) || !is_scalar($str_new))
@@ -103,9 +113,12 @@ class Slug
             throw new \InvalidArgumentException('New rule to replace character must be two valid string or scalar value.');
         }
 
-        if(preg_match('/[^a-zA-Z0-9]/', $str_new))
+        if(strlen($str_new) > 0)
         {
-            throw new \InvalidArgumentException('Replacement string contains not allowed characters!');
+            if(preg_match('/[^a-zA-Z0-9-]/', (string) $str_new))
+            {
+                throw new \InvalidArgumentException('Replacement string contains not allowed characters!');
+            }
         }
 
         $this->arr_rules[(string) $str_to_change] = (string) $str_new;
@@ -142,6 +155,7 @@ class Slug
             $this->str = mb_strtolower((string) $str, 'UTF-8');
         }
 
+        $this->str_out = null;
 
         return $this;
     }
