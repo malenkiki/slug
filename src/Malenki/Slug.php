@@ -38,6 +38,7 @@ class Slug
 {
     protected $str = null;
     protected $str_out = null;
+    protected $arr_rules = array();
     protected static $arr_history = array();
     protected $use_history = true;
 
@@ -91,6 +92,25 @@ class Slug
     public function noHistory()
     {
         $this->use_history = false;
+        return $this;
+    }
+
+
+
+    public function rule($str_to_change, $str_new)
+    {
+        if(!is_scalar($str_to_change) || !is_scalar($str_new))
+        {
+            throw new \InvalidArgumentException('New rule to replace character must be two valid string or scalar value.');
+        }
+
+        if(preg_match('/[^a-zA-Z0-9]/', $str_new))
+        {
+            throw new \InvalidArgumentException('Replacement string contains not allowed characters!');
+        }
+
+        $this->arr_rules[(string) $str_to_change] = (string) $str_new;
+
         return $this;
     }
 
@@ -165,9 +185,16 @@ class Slug
 
         if(is_null($this->str_out))
         {
+            $str_prov = $this->str;
+
+            if(count($this->arr_rules))
+            {
+                $str_prov = strtr($str_prov, $this->arr_rules);
+            }
+            
             $str_prov = transliterator_transliterate(
                 "Any-Latin; NFD; [:Nonspacing Mark:] Remove; NFC;  Lower();",
-                $this->str
+                $str_prov
             );
             $str = trim(preg_replace('/[^a-z0-9-]+/', '-', $str_prov), '-');
 
