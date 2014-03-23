@@ -76,6 +76,18 @@ class SlugTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('voici-une-chaine', "$s");
     }
 
+    public function testPredefinedHistory()
+    {
+        $arr = array('voici-une-autre-chaine', 'a-simple-string');
+        Slug::history($arr);
+        $s = new Slug('Voici une autre chaîne');
+        $this->assertEquals('voici-une-autre-chaine-2', "$s");
+        $s->v('A simple string!');
+        $this->assertEquals('a-simple-string-2', "$s");
+        $s->v('Yet another string!');
+        $this->assertEquals('yet-another-string', "$s");
+    }
+
     public function testCustomRules()
     {
         $s = new Slug();
