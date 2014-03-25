@@ -48,6 +48,23 @@ class SlugTest extends PHPUnit_Framework_TestCase
     }
 
 
+    public function testSomeLanguages()
+    {
+        $s = new Slug();
+        $s->v('α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ ς σ τ υ φ χ ψ ω');
+        $this->assertEquals('a-b-g-d-e-z-e-th-i-k-l-m-n-x-o-p-r-s-s-t-y-ph-ch-ps-o', "$s");
+        $s->noHistory()->v('Α Β Γ Δ Ε Ζ Η Θ Ι Κ Λ Μ Ν Ξ Ο Π Ρ Σ Σ Τ Υ Φ Χ Ψ Ω');
+        $this->assertEquals('a-b-g-d-e-z-e-th-i-k-l-m-n-x-o-p-r-s-s-t-y-ph-ch-ps-o', "$s");
+
+        /*
+        $s->noHistory()->v('⽇');
+        var_dump($s->render());
+        $s->noHistory()->v('а б в г д е ё ж з и й к л м н о п р с т у ф х ц ч ш щ ъ ы ь э ю я ѐ ђ ѓ ѕ і ї ј љ њ ћ ќ ѝ ў џ');
+        var_dump($s->render());
+         */
+    }
+
+
     public function testDefaultHistory()
     {
         $s = new Slug('Voici une chaîne');
