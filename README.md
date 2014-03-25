@@ -91,7 +91,7 @@ echo $s->noHistory()->v('one-string'); // "one-string"
 echo $s->noHistory()->v('one-string'); // "one-string"
 ```
 
-You can use predefined history of slug too, usefull if you have a lot of then in DB:
+You can use predefined history of slug too, usefull if you have a lot of them in DB:
 
 ```php
 $s = new Slug();
