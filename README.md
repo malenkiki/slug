@@ -14,6 +14,10 @@ You can clone this repository or use [composer](https://getcomposer.org/):
 }
 ```
 
+## Requirements
+
+You must have [Intl PHP extension](http://www.php.net/intl) and [mbstring PHP extension](http://www.php.net/mbstring).
+
 ## How to use it
 
 Very simple:
