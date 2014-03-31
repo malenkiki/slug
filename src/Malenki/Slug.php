@@ -27,8 +27,41 @@ namespace Malenki;
 
 
 /**
- * Slug 
+ * Slugifies strings.
+ *
+ * This class allows you to transliterate string to US ASCII with non 
+ * alphanumeric resulting characters changed to hyphen. 
+ *
+ * So, for example, `C’est en français` will give `c-est-en-francais`.
+ *
+ *     $s = new Slug('C’est en français');
+ *     echo $s->render(); // c-est-en-francais
+ *     // or just
+ *     echo $s;
+ *
+ * Rules can be added to have some other character translations.
+ *
+ *     $s->rule('!', '-wouah')->rule('?', '-huh');
+ *
+ * String can be set while calling constructor or later using `v()` or 
+ * `value()` methods, this last feature is usefull when you have some rules to 
+ * apply several times..
+ *
+ *     $s = new Slug();
+ *     $s->rule('!', '-wouah')->rule('?', '-huh');
+ *     echo $s->v('This is great!'); // this-is-great-wouah
+ *     echo $s->v('How can you tell that?'); // how-can-you-tell-that-huh
+ *
+ * By default, an history is used, you can even set it with a set of already 
+ * existing slug to be sure that each new slug will be uniq… But you can disable history too.
+ *
+ *     $s = new Slug();
+ *     echo $s->v('something'); // something
+ *     echo $s->v('something'); // something-2
+ *     echo $s->v('something'); // something-3
  * 
+ * See doc for each method to have more informations.
+ *
  * @copyright 2014 Michel PETIT
  * @author Michel Petit <petit.michel@gmail.com> 
  * @license MIT
