@@ -59,6 +59,11 @@ namespace Malenki;
  *     echo $s->v('something'); // something
  *     echo $s->v('something'); // something-2
  *     echo $s->v('something'); // something-3
+ *     echo $s->noHistory()->v('something'); // something
+ *
+ *     $s2 = new Slug();
+ *     echo $s2->noHistory()->v('something'); // something
+ *     echo $s2->v('something'); // something-4
  * 
  * See doc for each method to have more informations.
  *
@@ -68,10 +73,39 @@ namespace Malenki;
  */
 class Slug
 {
+    /**
+     * Stores original string 
+     * 
+     * @var string
+     * @access protected
+     */
     protected $str = null;
+    /**
+     * Stores transliterated string 
+     * 
+     * @var string
+     * @access protected
+     */
     protected $str_out = null;
+    /**
+     * Stores each custom rules 
+     * 
+     * @var array
+     * @access protected
+     */
     protected $arr_rules = array();
+    /**
+     * Stores slug history 
+     */
     protected static $arr_history = array();
+
+    /**
+     * Flag to know whether history must be use or not while generating current 
+     * slug. 
+     * 
+     * @var boolean
+     * @access protected
+     */
     protected $use_history = true;
 
 
