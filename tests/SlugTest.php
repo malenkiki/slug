@@ -33,7 +33,6 @@ class SlugTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('azerty', "$s");
     }
 
-
     public function testStringThatShouldBeChanged()
     {
         $s = new Slug('John\'s car');
@@ -41,12 +40,11 @@ class SlugTest extends PHPUnit_Framework_TestCase
 
         $s = new Slug('C’est génial d’écrire en français !');
         $this->assertEquals('c-est-genial-d-ecrire-en-francais', "$s");
-        
+
         $s = new Slug('Τα ελληνικά σου είναι καλύτερα απο τα Γαλλικά μου!');
         $this->assertEquals('ta-ellenika-sou-einai-kalytera-apo-ta-gallika-mou', $s->render());
 
     }
-
 
     public function testSomeLanguages()
     {
@@ -63,7 +61,6 @@ class SlugTest extends PHPUnit_Framework_TestCase
         var_dump($s->render());
          */
     }
-
 
     public function testDefaultHistory()
     {
